@@ -1,0 +1,551 @@
+@backend_HostAddress = http://localhost:5112
+@accessToken = replace-with-jwt
+@refreshToken = replace-with-refresh-token
+@clientId = 01JV0EXAMPLECLIENT000000000
+
+### Login
+POST {{backend_HostAddress}}/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "teamlead@example.com",
+  "password": "ChangeMe123!"
+}
+
+### Current user
+GET {{backend_HostAddress}}/auth/me
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Refresh token
+POST {{backend_HostAddress}}/auth/refresh
+Content-Type: application/json
+Accept: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+### Logout
+POST {{backend_HostAddress}}/auth/logout
+Content-Type: application/json
+Accept: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+### Clients list for ToolJet table
+GET {{backend_HostAddress}}/clients?page=1&pageSize=20&search=&sortBy=name&sortDir=asc
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Clients select options
+GET {{backend_HostAddress}}/clients/select?search=alex&limit=20
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Client detail for ToolJet form
+GET {{backend_HostAddress}}/clients/{{clientId}}
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Create client
+POST {{backend_HostAddress}}/clients
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Alex Example",
+  "emails": [
+    { "email": "alex@example.com", "isPrimary": true },
+    { "email": "alex.work@example.com", "isPrimary": false }
+  ],
+  "contacts": {
+    "phoneNumber": "+380501112233",
+    "telegram": "@alexexample",
+    "discord": "alexexample",
+    "instagram": "@alex.insta"
+  },
+  "financials": {
+    "initialBudget": 1000,
+    "totalEarnings": 0
+  },
+  "additionalInfo": {
+    "notes": "Lead from webinar",
+    "preferredLanguage": "en",
+    "source": "webinar",
+    "city": "Kyiv",
+    "birthDate": "1995-04-12",
+    "occupation": "Designer"
+  },
+  "createdBy": "tooljet"
+}
+
+### Update client
+PUT {{backend_HostAddress}}/clients/{{clientId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Alex Example Updated",
+  "emails": [
+    { "email": "alex@example.com", "isPrimary": false },
+    { "email": "alex.updated@example.com", "isPrimary": true }
+  ],
+  "contacts": {
+    "phoneNumber": "+380509998877",
+    "telegram": "@alexexample",
+    "discord": "alexexample",
+    "instagram": "@alex.insta"
+  },
+  "financials": {
+    "initialBudget": 1200,
+    "totalEarnings": 300
+  },
+  "additionalInfo": {
+    "notes": "Updated from ToolJet form",
+    "preferredLanguage": "en",
+    "source": "referral",
+    "city": "Warsaw",
+    "birthDate": "1995-04-12",
+    "occupation": "Product Designer"
+  }
+}
+
+### Patch client
+PATCH {{backend_HostAddress}}/clients/{{clientId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "contacts": {
+    "telegram": "@alexexample_updated"
+  }
+}
+
+### Set primary email
+POST {{backend_HostAddress}}/clients/{{clientId}}/primary-email
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "alex.updated@example.com"
+}
+
+### Add client email
+POST {{backend_HostAddress}}/clients/{{clientId}}/emails
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "alex.new@example.com",
+  "isPrimary": false
+}
+
+### Products list
+GET {{backend_HostAddress}}/products?page=1&pageSize=20&search=&sortBy=name&sortDir=asc
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Product detail
+GET {{backend_HostAddress}}/products/1
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Create product
+POST {{backend_HostAddress}}/products
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "code": "crypto-mentorship",
+  "legacyCode": "CM-001",
+  "name": "Crypto Mentorship",
+  "type": "Mentorship",
+  "discordAccess": true
+}
+
+### Patch product
+PATCH {{backend_HostAddress}}/products/1
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "isActive": true,
+  "isArchived": false
+}
+
+### Add package to product
+POST {{backend_HostAddress}}/products/1/packages
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "code": "crypto-mentorship-base",
+  "name": "Base Package",
+  "durationDays": 30,
+  "discordAccess": true,
+  "discordDays": 30
+}
+
+### Orders list
+GET {{backend_HostAddress}}/orders?page=1&pageSize=20&sortBy=createdAt&sortDir=desc
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Order detail
+GET {{backend_HostAddress}}/orders/{{clientId}}
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Create order
+POST {{backend_HostAddress}}/orders
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "clientId": "{{clientId}}",
+  "source": "Manual",
+  "items": [
+    {
+      "productId": 1,
+      "packageId": 1,
+      "price": 1000,
+      "quantity": 1
+    }
+  ],
+  "payments": [
+    {
+      "amount": 1000,
+      "currency": "USD",
+      "status": "Pending",
+      "totalInstallments": 1
+    }
+  ]
+}
+
+### Patch order
+PATCH {{backend_HostAddress}}/orders/{{clientId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "status": "Active"
+}
+
+### Add payment to order
+POST {{backend_HostAddress}}/orders/{{clientId}}/payments
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "amount": 500,
+  "currency": "USD",
+  "status": "Paid",
+  "totalInstallments": 1,
+  "paidAt": "2026-06-03T12:00:00Z"
+}
+
+### Subscriptions list
+GET {{backend_HostAddress}}/subscriptions?page=1&pageSize=20&sortBy=startAt&sortDir=desc
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Subscription detail
+GET {{backend_HostAddress}}/subscriptions/{{clientId}}
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Create subscription
+POST {{backend_HostAddress}}/subscriptions
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "clientId": "{{clientId}}",
+  "productId": 1,
+  "orderItemId": "{{clientId}}",
+  "startAt": "2026-06-01T00:00:00Z",
+  "endAt": "2026-07-01T00:00:00Z",
+  "type": "CoursePlatform",
+  "status": "Active",
+  "notes": "Created from ToolJet"
+}
+
+### Patch subscription
+PATCH {{backend_HostAddress}}/subscriptions/{{clientId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "notes": "Updated note from ToolJet"
+}
+
+### Change subscription status
+POST {{backend_HostAddress}}/subscriptions/{{clientId}}/status
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "status": "Suspended"
+}
+
+### Applications list
+GET {{backend_HostAddress}}/applications?page=1&pageSize=20&sortBy=createdAt&sortDir=desc
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Application detail
+GET {{backend_HostAddress}}/applications/{{clientId}}
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Application types
+GET {{backend_HostAddress}}/applications/types
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Create application
+POST {{backend_HostAddress}}/applications
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "typeId": "{{clientId}}",
+  "authorId": "{{clientId}}",
+  "clientId": "{{clientId}}",
+  "title": "Need schedule adjustment",
+  "description": "Client requests vacation break",
+  "reason": "Vacation"
+}
+
+### Change application status
+POST {{backend_HostAddress}}/applications/{{clientId}}/status
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "status": "InProcess"
+}
+
+### Cases list
+GET {{backend_HostAddress}}/cases?page=1&pageSize=20&sortBy=createdAt&sortDir=desc
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Case detail
+GET {{backend_HostAddress}}/cases/{{clientId}}
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Create case
+POST {{backend_HostAddress}}/cases
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "clientId": "{{clientId}}",
+  "createdById": "{{clientId}}",
+  "type": "Spot",
+  "amount": 2500,
+  "currency": "USD",
+  "comment": "Client reported a strong result",
+  "isFeatured": true,
+  "hasConsent": true
+}
+
+### Change case status
+POST {{backend_HostAddress}}/cases/{{clientId}}/status
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "status": "Approved"
+}
+
+### Change case featured flag
+POST {{backend_HostAddress}}/cases/{{clientId}}/featured
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "isFeatured": false
+}
+
+### Cohorts list
+GET {{backend_HostAddress}}/learning-structure/cohorts?page=1&pageSize=20
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Create cohort
+POST {{backend_HostAddress}}/learning-structure/cohorts
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "productId": 1,
+  "name": "June 2026 Cohort",
+  "startAt": "2026-06-10T00:00:00Z",
+  "endsAt": "2026-07-10T00:00:00Z"
+}
+
+### Groups list
+GET {{backend_HostAddress}}/learning-structure/groups?page=1&pageSize=20
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Create group
+POST {{backend_HostAddress}}/learning-structure/groups
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "cohortId": "{{clientId}}",
+  "name": "Group A",
+  "packageId": 1,
+  "learningPlatformId": "group-a-101"
+}
+
+### Enrollments list
+GET {{backend_HostAddress}}/learning-structure/enrollments?page=1&pageSize=20
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Create enrollment
+POST {{backend_HostAddress}}/learning-structure/enrollments
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "orderId": "{{clientId}}",
+  "orderItemId": "{{orderItemId}}",
+  "desiredStartDate": "2026-06-12T00:00:00Z"
+}
+
+### Roadmap templates list
+GET {{backend_HostAddress}}/roadmaps/templates?page=1&pageSize=20
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Create roadmap template
+POST {{backend_HostAddress}}/roadmaps/templates
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Crypto Onboarding Roadmap",
+  "productId": 1,
+  "description": "Default onboarding roadmap"
+}
+
+### Add roadmap item
+POST {{backend_HostAddress}}/roadmaps/templates/1/items
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "First lesson",
+  "type": "Lesson",
+  "daysFromStart": 0
+}
+
+### Roadmap assignments list
+GET {{backend_HostAddress}}/roadmaps/assignments?page=1&pageSize=20
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Create roadmap assignment
+POST {{backend_HostAddress}}/roadmaps/assignments
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "roadMapItemId": 1,
+  "enrollmentId": "{{clientId}}",
+  "dueAtDaysFromEnrollment": 3,
+  "userId": "{{clientId}}"
+}
+
+### Users list
+GET {{backend_HostAddress}}/users?page=1&pageSize=20
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### User roles
+GET {{backend_HostAddress}}/users/roles
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Create user
+POST {{backend_HostAddress}}/users
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "manager@example.com",
+  "fullName": "Alex Manager",
+  "telegramUsername": "alex_manager",
+  "telegramWork": "@alex_work",
+  "role": "ProjectManager",
+  "password": "StrongPass123",
+  "isActive": true
+}
+
+### Patch user
+PATCH {{backend_HostAddress}}/users/{{clientId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "telegramWork": "@alex_updated",
+  "isActive": true
+}
+
+### Change user status
+POST {{backend_HostAddress}}/users/{{clientId}}/status
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "isActive": false
+}
+
+### Reset user password
+POST {{backend_HostAddress}}/users/{{clientId}}/password
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "password": "NewStrongPass123"
+}

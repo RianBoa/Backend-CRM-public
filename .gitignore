@@ -1,0 +1,165 @@
+## ===============================
+##  .NET & ASP.NET Core projects
+## ===============================
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+
+# Others
+~$*
+*~
+CodeCoverage/
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# MSBuild Binary and Structured Log
+*.binlog
+
+# MSTest / NUnit test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+
+# Rider & Visual Studio caches
+.ReSharper*/
+*_ReSharper*/
+*.DotSettings.user
+*.sln.iml
+
+# User-specific
+*.userprefs
+*.rsuser
+*.suo
+
+# EF Core migrations cache
+# [Mm]igrations/
+
+# Logs & temporary files
+*.log
+*.tlog
+*.svclog
+*.pid
+*.seed
+*.tmp
+*.bak
+
+# Generated static assets (wwwroot)
+wwwroot/dist/
+wwwroot/build/
+wwwroot/node_modules/
+node_modules/
+
+# Docker-related
+**/docker-compose.override.yml
+**/docker-compose.debug.yml
+**/docker-compose.test.yml
+Dockerfile.*
+.dockerignore
+
+
+# ===============================
+#  Security & configuration
+# ===============================
+
+# Environment variables
+.env
+.env.*
+!env.example
+!.env.example
+
+# Secrets
+secrets.json
+*.UserSecrets/
+usersecrets.json
+secret.json
+
+# Local database files
+*.db
+*.sqlite
+*.sqlite3
+*.mdf
+*.ldf
+
+# ===============================
+#  Miscellaneous
+# ===============================
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# JetBrains / Visual Studio Code
+.idea/
+.vscode/
+*.code-workspace
+
+# Backups & temp files
+*.bak
+*.old
+*.tmp
+*.swp
+*.orig
+*.save
+
+# Git itself
+.gitconfig.local
+
+# Local agent/server context
+docs/*.local.md
+
+# Local tooling, exports and private backups
+.codex/
+.codex-tmp/
+.codex-secrets/
+codex-backup*/
+codex_secrets/
+.tmpobj/
+*.tar
+*.tar.gz
+*.zip
+credentials.json
+auth.json
+*.pem
+*.key
+*.pfx
+*.p12
+*.local.json
+*.local.yml
+*.local.yaml
+appsettings.Production.json
+appsettings.Test.json

@@ -1,0 +1,40 @@
+# Source-only example. The reserved .invalid host prevents accidental real calls.
+@host = https://sales-import.example.invalid
+@integrationKey = replace-with-a-dedicated-service-key
+
+### New person/deal with a confirmed partial payment
+POST {{host}}/integrations/sales/orders
+X-Integration-Key: {{integrationKey}}
+Content-Type: application/json
+
+{
+  "eventId": "sales-event-1001",
+  "client": {
+    "pipedrivePersonId": "12345",
+    "email": "student@example.test",
+    "name": "Demo Student"
+  },
+  "order": {
+    "pipedriveDealId": "67890",
+    "currency": "USD",
+    "purchasedAt": "2026-06-01T12:00:00Z",
+    "items": [
+      { "productCode": "ffa-core", "packageCode": "mentorship", "price": 1000, "quantity": 1 }
+    ]
+  },
+  "payments": [
+    {
+      "externalId": "provider-payment-001",
+      "amount": 250,
+      "currency": "USD",
+      "status": "Paid",
+      "paidAt": "2026-06-01T12:05:00Z",
+      "totalInstallments": 4,
+      "currentInstallment": 1
+    }
+  ]
+}
+
+# Resending exactly this event returns its receipt (replayed=true), not another purchase.
+# For an additional payment use a NEW eventId and payment externalId, with the SAME
+# Person ID, Deal ID, purchasedAt, currency, product/package, unit price and quantity.
